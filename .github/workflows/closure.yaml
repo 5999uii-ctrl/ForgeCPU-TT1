@@ -1,0 +1,15 @@
+name: forgecpu-closure
+on: [push, workflow_dispatch]
+jobs:
+  closure:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: pip install PyYAML==6.0.2
+      - name: Run ISA reference model
+        run: python tools/reference_model.py
+      - name: Run submission static checks
+        run: python tools/submission_check.py
