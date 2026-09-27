@@ -1,0 +1,54 @@
+name: gl-retest-current-testbench
+
+on:
+  push:
+    paths:
+      - ".github/workflows/gl-retest.yaml"
+      - "test/**"
+  workflow_dispatch:
+
+jobs:
+  gl_retest:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout current candidate
+        uses: actions/checkout@v6
+
+      - name: Download last known-good GDS artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: tt_submission
+          path: .
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 36328747582
+
+      - name: Install SKY130A PDK
+        uses: TinyTapeout/ciel-action@v1
+        with:
+          pdk_name: sky130A
+          pdk_version: 8afc8346a57fe1ab7934ba5a6056ea8b43078e71
+          pdk_root: /home/runner/pdk
+
+      - name: Install simulator
+        run: sudo apt-get update && sudo apt-get install -y iverilog
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install test dependencies
+        run: pip install -r test/requirements.txt
+
+      - name: Run current tests against known-good gate netlist
+        env:
+          PDK: sky130A
+          PDK_ROOT: /home/runner/pdk
+        run: |
+          cp tt_submission/*.v test/gate_level_netlist.v
+          cd test
+          rm -f tb.vcd tb.fst results.xml
+          make clean
+          GATES=yes make
+          test -f results.xml
+          ! grep -E '<(failure|error)' results.xml
