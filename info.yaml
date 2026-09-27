@@ -1,0 +1,40 @@
+# Tiny Tapeout project information
+project:
+  title: "ForgeCPU-TT1"
+  author: "Forge01 Project"
+  discord: ""
+  description: "An 8-bit accumulator CPU generated from Forge01-HW for first-silicon verification."
+  language: "Verilog"
+  clock_hz: 10000000
+  tiles: "1x1"
+  top_module: "tt_um_forge01_forgecpu_tt1"
+  source_files:
+    - "project.v"
+
+pinout:
+  ui[0]: "host_addr_0 / inspect_sel_0"
+  ui[1]: "host_addr_1 / inspect_sel_1"
+  ui[2]: "host_addr_2 / inspect_reg_0"
+  ui[3]: "inspect_reg_1"
+  ui[4]: "reserved"
+  ui[5]: "reserved"
+  ui[6]: "mode_0"
+  ui[7]: "mode_1"
+  uo[0]: "result_0"
+  uo[1]: "result_1"
+  uo[2]: "result_2"
+  uo[3]: "result_3"
+  uo[4]: "result_4"
+  uo[5]: "result_5"
+  uo[6]: "result_6"
+  uo[7]: "result_7"
+  uio[0]: "program_data_0"
+  uio[1]: "program_data_1"
+  uio[2]: "program_data_2"
+  uio[3]: "program_data_3"
+  uio[4]: "program_data_4"
+  uio[5]: "program_data_5"
+  uio[6]: "program_data_6"
+  uio[7]: "program_data_7"
+
+yaml_version: 6
