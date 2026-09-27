@@ -37,7 +37,10 @@ jobs:
       - name: GL test
         uses: TinyTapeout/tt-gds-action/gl_test@ttsky26d
 
+  # Optional visual GDS viewer. GitHub Pages is not enabled for this repository,
+  # and the viewer is not a fabrication/precheck requirement, so keep it skipped.
   viewer:
+    if: ${{ false }}
     needs: gds
     runs-on: ubuntu-24.04
     permissions:
